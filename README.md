@@ -17,6 +17,7 @@
 |:-------|:--------:|:----:|
 | [Day 1 : Secret Entrance](https://adventofcode.com/2025/day/1)  |   ⭐⭐   |   1.192 ms   |
 | [Day 2 : Gift Shop](https://adventofcode.com/2025/day/2)  |   ⭐⭐   |   1.355 ms   |
+| [Day 3 : Lobby](https://adventofcode.com/2025/day/3)  |   ⭐⭐   |   8.343 ms   |
 
 </p>
 
@@ -68,7 +69,7 @@ else:
   <summary><strong>Show Day 2</strong></summary>
 
   **Status:**  
-  ![Patata](https://img.shields.io/badge/Day%201-completed-BFFFD1)
+  ![Patata](https://img.shields.io/badge/Day%202-completed-BFFFD1)
 
   **Solution overview:**
   This got harder very quickly. I thought about doing bruteforce but I was sure part 2 was going to be this kind of problem where bruteforce is impossible. I was very wrong 🙃🙃🙃. So, what I made for part 1 is just checking the left half of the even-digit numbers inside the intervals and check if they fit the intervals. So, if I want to check the numbers from 1234 to 6789, I will check the numbers 12 to 67 and check if the repetitions (i.e. 1212, 1313, 1414...) are inside the interval.
@@ -105,5 +106,40 @@ For part 2 we can reuse the code from part2 but dividing the number in n equal p
                 if int(p.x) <= int(str(id)*n) and int(str(id)*n) <= int(p.y):
                     invalid_ids.append(int(str(id)*n))
 ```
+
+</details>
+
+### Day 3
+
+<details>
+  <summary><strong>Show Day 3</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%203-completed-BFFFD1)
+
+  **Solution overview:**
+  This was way easier than yesterday. You need to follow one simple rule to solve this problem. Get the highest number and continue to the next digit right after that number. You need to be careful to leave space for the rest of the digits but overall it was not very hard. Part 2 is as follows:
+
+```python
+def part2(data):
+    sol2 = 0
+    for seq in data:
+        vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        i = -1
+        for digit in range(11, -1, -1):
+            for j in range(i+1,len(seq)-digit):
+                if int(seq[j]) > vals[digit]:
+                    vals[digit] = int(seq[j])
+                    i = j
+                if vals[digit] == 9:
+                    break
+
+        sol2 += sum([d * (10 ** i) for i, d in enumerate(vals)])
+    
+    return sol2
+```
+
+Part one is very similiar, the only difference is that the I don't loop over the 2 digits. Instead, I calculate them in the same loop.
 
 </details>
