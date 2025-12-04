@@ -11,15 +11,12 @@
 
 ## ⭐ Progress ⭐
 
-<p align="center">
-
 | Day    | Status   | Time |
 |:-------|:--------:|:----:|
 | [Day 1 : Secret Entrance](https://adventofcode.com/2025/day/1)  |   ⭐⭐   |   1.192 ms   |
 | [Day 2 : Gift Shop](https://adventofcode.com/2025/day/2)  |   ⭐⭐   |   1.355 ms   |
 | [Day 3 : Lobby](https://adventofcode.com/2025/day/3)  |   ⭐⭐   |   8.343 ms   |
-
-</p>
+| [Day 4 : Printing Department](https://adventofcode.com/2025/day/4)  |   ⭐⭐   |   55.344 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -39,7 +36,7 @@ Part 2: 36
 Time  : 0.769ms
 ```
 
-## Summary
+## 📑 Summary 📑
 
 ### Day 1
 
@@ -141,5 +138,20 @@ def part2(data):
 ```
 
 Part one is very similiar, the only difference is that the I don't loop over the 2 digits. Instead, I calculate them in the same loop.
+
+</details>
+
+### Day 4
+
+<details>
+  <summary><strong>Show Day 4</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%204-completed-BFFFD1)
+
+  **Solution overview:**
+  If you are confident with 2 dimensional grids, this is by far the easiest problem so far. I decided to use sets and just check the cells where a paper roll was. Part 1 is really straigforward and in part 2 I used a queue and add the neightbour cells that change to the next queue until that queue is empty and then we exit the loop.
+
+  I don't have a lot to say about the code, this day was really straightforward, so here is some paper rolls 🧻🧻🧻🧻🧻🧻.
 
 </details>
