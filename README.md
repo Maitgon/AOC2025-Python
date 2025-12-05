@@ -17,6 +17,7 @@
 | [Day 2 : Gift Shop](https://adventofcode.com/2025/day/2)  |   ⭐⭐   |   1.355 ms   |
 | [Day 3 : Lobby](https://adventofcode.com/2025/day/3)  |   ⭐⭐   |   8.343 ms   |
 | [Day 4 : Printing Department](https://adventofcode.com/2025/day/4)  |   ⭐⭐   |   55.344 ms   |
+| [Day 5 : Cafeteria](https://adventofcode.com/2025/day/5)  |   ⭐⭐   |   0.876 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -153,5 +154,57 @@ Part one is very similiar, the only difference is that the I don't loop over the
   If you are confident with 2 dimensional grids, this is by far the easiest problem so far. I decided to use sets and just check the cells where a paper roll was. Part 1 is really straigforward and in part 2 I used a queue and add the neightbour cells that change to the next queue until that queue is empty and then we exit the loop.
 
   I don't have a lot to say about the code, this day was really straightforward, so here is some paper rolls 🧻🧻🧻🧻🧻🧻.
+
+</details>
+
+### Day 5
+
+<details>
+  <summary><strong>Show Day 5</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%205-completed-BFFFD1)
+
+  **Solution overview:**
+  Ok, this one might be the hardest up to now. But it isn't really that hard if you have programmed an union interval algorithm before.
+
+  First, I did the part 1 as someone would expect but I noticed that it could be done with binary search. You can sort the intervals by the left part of the interval and then compute binary search to look if the id is in... Wait, it gave me a wrong answer... I get it, that's because some intervals are way bigger than others and interval things like $b \subseteq c$ where $b$ and $c$ are intervals can happen and the algorithm would look interval $b$ but not $c$. But this would be possible if the intersection of all the intervals were $\emptyset$. And part 2 may ask us to find that set.
+
+  So I basically solved part 2 and found the union of the sets, so the new every interval intersection in the new set is $\emptyset$, and then I made the binary search as follows:
+
+  ```python
+    sort_data = sorted(data[0], key=lambda p: p.x)
+    union = [sort_data[0]]
+
+    for pair in sort_data[1:]:
+        last = union[-1]
+        if pair.x <= last.y:
+            last.y = max(last.y, pair.y)
+        else:
+            union.append(pair)
+    
+    sol1 = 0
+    for id in data[1]:
+        l, r = 0, len(union) - 1
+        found = False
+        while l <= r:
+            m = (l + r) // 2
+            pair = union[m]
+            if pair.x <= id <= pair.y:
+                found = True
+                break
+            elif id < pair.x:
+                r = m - 1
+            else:
+                l = m + 1
+        if found:
+            sol1 += 1
+    
+    return sol1, sum(p.y - p.x + 1 for p in union)
+  ```
+
+  I'm quite happy with how fast I found this. Union algorithm basically consist in picking an interval and then finding the intervals which intersection is non-empty and making a new interval until none of the intervals intersects with it, then you continue with the next interval.
+
+  This one is the fastest solution this year so far clocking under 1ms.
 
 </details>
