@@ -18,6 +18,7 @@
 | [Day 3 : Lobby](https://adventofcode.com/2025/day/3)  |   ⭐⭐   |   8.343 ms   |
 | [Day 4 : Printing Department](https://adventofcode.com/2025/day/4)  |   ⭐⭐   |   55.344 ms   |
 | [Day 5 : Cafeteria](https://adventofcode.com/2025/day/5)  |   ⭐⭐   |   0.876 ms   |
+| [Day 6 : Trash Compactor](https://adventofcode.com/2025/day/6)  |   ⭐⭐   |   3.285 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -206,5 +207,52 @@ Part one is very similiar, the only difference is that the I don't loop over the
   I'm quite happy with how fast I found this. Union algorithm basically consist in picking an interval and then finding the intervals which intersection is non-empty and making a new interval until none of the intervals intersects with it, then you continue with the next interval.
 
   This one is the fastest solution this year so far clocking under 1ms.
+
+</details>
+
+### Day 6
+
+<details>
+  <summary><strong>Show Day 6</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%206-completed-BFFFD1)
+
+  **Solution overview:**
+  Ok, I wasn't expecting that part 2 at all. Basically, today was a string manipulation (kinda) problem. Part 1 is way easier than part 2 so I will explain the latter.
+
+  In part 2, I basically run a index across all columns and concatenate all the characters that I found in the column. If it's not an empty string I add it to a list of numbers, if it is an empty string, then I take my list of numbers, operate them depending on the operator that I have to use and start a new list of numbers.
+
+  ```python
+  operands = data[-1].split()
+    sol2 = 0
+    op = 0
+    nums = []
+    for j in range(0, len(data[0])):
+        pos_num = ""
+        # Get the column number
+        for i in range(0, len(data)-1):
+            if data[i][j] != " ":
+                pos_num += data[i][j]
+        
+        # If the column number is all whitespace, the the numbers end, and you operate them
+        # Also if it is the last column
+        if pos_num == "" or j == len(data[0])-1:
+            if j == len(data[0])-1:
+                nums.append(int(pos_num))
+            operand = operands[op]
+            if operand == '+':
+                sol2 += reduce(lambda x, y: x + y, nums, 0)
+            elif operand == '*':
+                sol2 += reduce(lambda x, y: x * y, nums, 1)
+            nums = []
+            op += 1
+        
+        # If the column contains some number, delete the whitespace and add the number
+        else:
+            nums.append(int(pos_num))
+  ```
+
+  I wouldn't say this was super hard but definitely a harder problem than yesterday. I think my solution looks a bit cloncky but it works quite fast. Also, got carried really hard by python string manipulation capabilities (giving you a mean look, rust)
 
 </details>
