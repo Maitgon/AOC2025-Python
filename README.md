@@ -19,6 +19,7 @@
 | [Day 4 : Printing Department](https://adventofcode.com/2025/day/4)  |   ⭐⭐   |   55.344 ms   |
 | [Day 5 : Cafeteria](https://adventofcode.com/2025/day/5)  |   ⭐⭐   |   0.876 ms   |
 | [Day 6 : Trash Compactor](https://adventofcode.com/2025/day/6)  |   ⭐⭐   |   3.285 ms   |
+| [Day 7 : Laboratories](https://adventofcode.com/2025/day/7)  |   ⭐⭐   |   0.699 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -254,5 +255,39 @@ Part one is very similiar, the only difference is that the I don't loop over the
   ```
 
   I wouldn't say this was super hard but definitely a harder problem than yesterday. I think my solution looks a bit cloncky but it works quite fast. Also, got carried really hard by python string manipulation capabilities (giving you a mean look, rust)
+
+</details>
+
+### Day 7
+
+<details>
+  <summary><strong>Show Day 7</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%207-completed-BFFFD1)
+
+  **Solution overview:**
+  I think this was a pretty easy day. You need to take into account that the splits happen every two rows, so you can ignore half the rows. I ended up doing both parts together. First I used a set to solve part 1 and then, I changed to sets once I discovered what part 2 was abuout. But I didn't need to change my code a lot o¡for part 2. I think the only difficult part about this problem is knowing you have to use dictionaries, but I thought it was pretty obvious.
+
+  ```python
+    sol1 = 0
+    beams = dict([(s, 1) for s, c in enumerate(data[0]) if c == 'S'])
+    for i in range(2, len(data), 2):
+        new_beams = dict()
+        for beam, n in beams.items():
+            if data[i][beam] == '^':
+                sol1 += 1
+                new_beams[beam-1] = new_beams.get(beam-1, 0) + n
+                new_beams[beam+1] = new_beams.get(beam+1, 0) + n
+            else:
+                new_beams[beam] = new_beams.get(beam, 0) + n
+            
+        beams = new_beams.copy()
+    return sol1, sum(beams.values())
+  ```
+
+  You can also use an array instead of a dictionary, and it would probably be faster, but my solution runs fast enough (0.7ms) and I like dictionaries.
+
+  We are 5 days away to finish this year and I hope the difficulty starts to ramp up now (I will totally regret saying this next week).
 
 </details>
