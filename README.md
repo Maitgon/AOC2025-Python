@@ -20,6 +20,7 @@
 | [Day 5 : Cafeteria](https://adventofcode.com/2025/day/5)  |   ⭐⭐   |   0.876 ms   |
 | [Day 6 : Trash Compactor](https://adventofcode.com/2025/day/6)  |   ⭐⭐   |   3.285 ms   |
 | [Day 7 : Laboratories](https://adventofcode.com/2025/day/7)  |   ⭐⭐   |   0.699 ms   |
+| [Day 8 : Playground](https://adventofcode.com/2025/day/8)  |   ⭐⭐   |   293.493 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -289,5 +290,61 @@ Part one is very similiar, the only difference is that the I don't loop over the
   You can also use an array instead of a dictionary, and it would probably be faster, but my solution runs fast enough (0.7ms) and I like dictionaries.
 
   We are 5 days away to finish this year and I hope the difficulty starts to ramp up now (I will totally regret saying this next week).
+
+</details>
+
+### Day 8
+
+<details>
+  <summary><strong>Show Day 8</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%208-completed-BFFFD1)
+
+  **Solution overview:**
+  The difficulty suddenly rose up. I love graph problems, but I wasted a lot of time not realising that I needed to merge different sets when a new edge that was in both sets arise.
+
+  For part 1 I decided to use a dfs from each vertex and store all the different clusters that would arise from them. Then, I used [kruskal algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm) for part 2 and realised that I was evading this in part 1 and it was a bit easier than dfs in the end... So I ended up doing part 1 inside the kruskal algorythm too.
+
+  ```python
+def kruskal(points: list[point3d], distances: list[tuple[tuple[point3d, point3d], float]]) -> tuple[int, int]:
+    F = []
+    edge_count = 1
+
+    def find(p: point3d) -> set:
+        for s in F:
+            if p in s:
+                return s
+        
+        return set()
+
+    def union(s1: set, s2: set) -> set:
+        return s1.union(s2)
+
+    for p in points:
+        F.append(set([p]))
+    
+    for (u, v), _ in distances:
+        fu = find(u)
+        fv = find(v)
+        if fu != fv:
+            F.remove(fu)
+            F.remove(fv)
+            F.append(union(fu, fv))
+        
+        if edge_count == 1000:
+            clusters_size = sorted(map(len, F))
+            sol1 = clusters_size[-1] * clusters_size[-2] * clusters_size[-3]
+        edge_count += 1
+        
+        if len(F) == 1:
+            return sol1, u.x * v.x
+    
+    return 0, 0
+  ```
+
+I could ignore types but I think it's easier for my brain to look at this with types. This solution is pretty slow ~1200ms but I don't think it has a lot of room for improvement more than just prunning the starting distances (which I did and it went down to ~300ms which is still quite a lot), and while prunning it I assume there is no point isolated from every other one which would make you need to use almost all distances.
+
+I really liked today's problem, I love graph problems and this was the difficulty bump that I was expecting. Now, I'm fearing what the next days will bring.
 
 </details>
