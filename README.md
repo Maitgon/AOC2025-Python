@@ -21,6 +21,7 @@
 | [Day 6 : Trash Compactor](https://adventofcode.com/2025/day/6)  |   ⭐⭐   |   3.285 ms   |
 | [Day 7 : Laboratories](https://adventofcode.com/2025/day/7)  |   ⭐⭐   |   0.699 ms   |
 | [Day 8 : Playground](https://adventofcode.com/2025/day/8)  |   ⭐⭐   |   293.493 ms   |
+| [Day 9 : Movie Theater](https://adventofcode.com/2025/day/9)  |   ⭐⭐   |   46.998 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -346,5 +347,34 @@ def kruskal(points: list[point3d], distances: list[tuple[tuple[point3d, point3d]
 I could ignore types but I think it's easier for my brain to look at this with types. This solution is pretty slow ~1200ms but I don't think it has a lot of room for improvement more than just prunning the starting distances (which I did and it went down to ~300ms which is still quite a lot), and while prunning it I assume there is no point isolated from every other one which would make you need to use almost all distances.
 
 I really liked today's problem, I love graph problems and this was the difficulty bump that I was expecting. Now, I'm fearing what the next days will bring.
+
+</details>
+
+### Day 9
+
+<details>
+  <summary><strong>Show Day 9</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%209-completed-BFFFD1)
+
+  **Solution overview:**
+  This was a really hard problem, it reminded me a bit of [2023 day 10](https://adventofcode.com/2023/day/10) but a bit harder.
+
+  Difficulty of part 1 is similar to a difficulty of a day 1 problem. just calculate the area for evey pair of points and store the highest one. Very very easy, and I was already expecting a difficult part 2.
+
+  First, I generated the polygon (stored it's edges) and then, for every square that we can form, we check if the area value is greater than the previous highest and then check if the square is inside the polygon. Checking if the square is inside the polygon is the hard part.
+
+  To do this, I used an external librery, shapely, that has build in functions to check it. The solution was wrong and I spent 2 and a half hours doing a check using linear algebra to solve a pair system of equations and getting the same result. After 2 and a half hours I discovered that the problem was that my area function was wrong (oopsie). I still ended up using the shapely library cause it was like 3x times faster but it still took 3 full seconds to compute the solution.
+
+  How did I manage to solve it in under 50ms? Well, there is a kind of problem every aoc where the input is very specific, and the polygon that the input forms looks like this:
+
+  ![Image of the polygon](media/Day9poly.png)
+
+  As you can guess, this is not any polygon, it's basically a circle where a rectangle cuts it in the middle, so it is highly highly likely that to get the biggest square you need to use those two vertexes of the middle rectangle.
+
+  ![Image of the square](media/Day9Points.png)
+
+  So I ended up only checking the squares that are formed using those two points. I know my solution can be improved but today was a bit tiring and I need to be ready for tomorrow.
 
 </details>
