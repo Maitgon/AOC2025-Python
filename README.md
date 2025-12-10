@@ -22,6 +22,7 @@
 | [Day 7 : Laboratories](https://adventofcode.com/2025/day/7)  |   ⭐⭐   |   0.699 ms   |
 | [Day 8 : Playground](https://adventofcode.com/2025/day/8)  |   ⭐⭐   |   293.493 ms   |
 | [Day 9 : Movie Theater](https://adventofcode.com/2025/day/9)  |   ⭐⭐   |   46.998 ms   |
+| [Day 10 : Factory](https://adventofcode.com/2025/day/10)  |   ⭐⭐   |   371.506 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -376,5 +377,52 @@ I really liked today's problem, I love graph problems and this was the difficult
   ![Image of the square](media/Day9Points.png)
 
   So I ended up only checking the squares that are formed using those two points. I know my solution can be improved but today was a bit tiring and I need to be ready for tomorrow.
+
+</details>
+
+### Day 10
+
+<details>
+  <summary><strong>Show Day 10</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%2010-completed-BFFFD1)
+
+  **Solution overview:**
+  If you don't want to use external libraries, this problem is definitely the hardest yet (again).
+
+  I'm actually a bit sad because I thought this was going to be a graph problem and even if part 1 was one. I couldn't find a way to make part 2 work as a graph problem so I ended up using constraint programming with an external library (ortools).
+
+  For part 1, I used a bfs to find the shortest path to get to the code, where each state is a node and each button press is an edge. I optimized it a bit by storing the visited states (as in bfs they will always be the shortest ones) and the problem was quite easy (even tho parsing the input is a bit annoying).
+
+  def get_min_presses(m: machine) -> int:
+    starting_node = tuple([0]*len(m.final_state))
+
+```python
+    queue = deque([(0, starting_node)])
+    visited = set([starting_node])
+
+    while queue:
+        presses, state = queue.popleft()
+
+        if state == m.final_state:
+            return presses
+
+        for button in m.buttons:
+            new_node = list(state)
+            for i in button:
+                new_node[i] = 1 - new_node[i]
+            new_node = tuple(new_node)
+            if new_node not in visited:
+                visited.add(new_node)
+                queue.append((presses + 1, new_node))
+    
+    return 0
+```
+
+For part 2, I tried a lot of optimizations, and maybe instead of button presses you could jump various button presses at the same time but even with that I couldn't make it to be fast enough. So I ended up using ortools cp_model to solve the problem as an integer linear programming problem.
+
+I'm a bit dissapointed that this part needed to use an external library but if you don't use them, good luck. You'll need it.
+  
 
 </details>
