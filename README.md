@@ -23,6 +23,7 @@
 | [Day 8 : Playground](https://adventofcode.com/2025/day/8)  |   ⭐⭐   |   293.493 ms   |
 | [Day 9 : Movie Theater](https://adventofcode.com/2025/day/9)  |   ⭐⭐   |   46.998 ms   |
 | [Day 10 : Factory](https://adventofcode.com/2025/day/10)  |   ⭐⭐   |   371.506 ms   |
+| [Day 11 : Reactor](https://adventofcode.com/2025/day/11)  |   ⭐⭐   |   2.056 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -424,5 +425,45 @@ For part 2, I tried a lot of optimizations, and maybe instead of button presses 
 
 I'm a bit dissapointed that this part needed to use an external library but if you don't use them, good luck. You'll need it.
   
+</details>
 
+### Day 11
+
+<details>
+  <summary><strong>Show Day 11</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%2011-completed-BFFFD1)
+
+  **Solution overview:**
+  This was a breather. After two hard problems these days this was quite easier.
+
+  This is a graph problem. For part 1 I used a dfs to count the different no cyclic paths from "you" to "out". I used a set named visited so that it would not include paths with cycles. Then I faced part 2, which I initially though, ok, this looks way easier than it should. So I tried to count all the paths from "svr" to "out" going through "fft" and "dac" in any order and of course it wouldn't finish. Ok, exactly what I expected. Then I realised that the only paths that matter are like this "srv" -> "fft" -> "dac" -> "out" or "svr" -> "dac" -> "fft" -> "out". So I could just calculate the six different dfs with a way smaller graph... and it still didn't finish a single one. Ok, now I was confused, and though, this is a really hard problem then, like, cycles are allowed and everything, right? Then I checked the stats, and saw that part 2 was not that difficult for people... so I thought, does this graph really contain cycles? I watched the example and the example didn't contain any so I though, it's my time to try the @cache decorator. And it worked inmediatly. So yeah, it was a memoization problem after all.
+
+  ```python
+def dfs(node_init: str, node_end: str, data: dict) -> int:
+    
+    @cache
+    def dfs_cache(node: str) -> int:
+        if node == node_end:
+            return 1
+        if node == "out":
+            return 0
+        count = 0
+        for neighbor in data[node]:
+            count += dfs_cache(neighbor)
+        return count
+    
+    return dfs_cache(node_init)
+  ```
+
+  Now, I used this in part 1 and 2, buut I noticed that the path from "svr" to "out" always goes trough "fft" first so I can ignore the other paths. So I ended up with this for part 2:
+
+  ```python
+def part2(data):
+    return dfs("svr", "fft", data) * dfs("fft", "dac", data) * dfs("dac", "out", data)
+  ```
+
+  I think this input is pretty specific and looking to the example input where the input graph looks like: "svr" -> nodes -> "ccc" -> nodes -> "fff" -> nodes -> "out" would make our bigger input similar, so there are probably more optimizations for this, but right now it runs in 2ms, so for me that is enough.
+  
 </details>
