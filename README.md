@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/language-Python%203.12-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/AoC-2025-6f42c1" />
-  <img src="https://img.shields.io/badge/status-in_progress-yellow" />
+  <img src="https://img.shields.io/badge/status-completed-BFFFD1" />
 </p>
 
 ## ⭐ Progress ⭐
@@ -24,6 +24,7 @@
 | [Day 9 : Movie Theater](https://adventofcode.com/2025/day/9)  |   ⭐⭐   |   46.998 ms   |
 | [Day 10 : Factory](https://adventofcode.com/2025/day/10)  |   ⭐⭐   |   371.506 ms   |
 | [Day 11 : Reactor](https://adventofcode.com/2025/day/11)  |   ⭐⭐   |   2.056 ms   |
+| [Day 12 : Christmas Tree Farm](https://adventofcode.com/2025/day/12)  |   ⭐⭐   |   1.805 ms   |
 
 ## 🚀 Run a Day 🚀
 
@@ -466,4 +467,19 @@ def part2(data):
 
   I think this input is pretty specific and looking to the example input where the input graph looks like: "svr" -> nodes -> "ccc" -> nodes -> "fff" -> nodes -> "out" would make our bigger input similar, so there are probably more optimizations for this, but right now it runs in 2ms, so for me that is enough.
   
+</details>
+
+### Day 11
+
+<details>
+  <summary><strong>Show Day 12</strong></summary>
+
+  **Status:**  
+  ![Patata](https://img.shields.io/badge/Day%2012-completed-BFFFD1)
+
+  **Solution overview:**
+  I will just leave this here:
+
+  🎄 ༺𝓜𝓮𝓻𝓻𝔂༻༺𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼༻🎄
+
 </details>
